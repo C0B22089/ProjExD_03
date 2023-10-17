@@ -167,6 +167,7 @@ def main():
                 bird.change_img(8, screen)
                 pg.display.update()
                 time.sleep(1)
+                return
         if beam is not None:
             if bomb is not None:
                 if beam.rct.colliderect(bomb.rct):
