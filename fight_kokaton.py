@@ -129,12 +129,13 @@ class Score:   #スコア表示
         self.font = pg.font.SysFont("hgp創英角pop体", 30)
         self.color = (0, 0, 255)
         self.score = 0
-        self.img = self.font.render("スコア", 0, self.color)
+        self.img = self.font.render(f"Scire: {self.score}", True, self.color)
         self.rct = self.img.get_rect()
         self.rct.centerx = 100
-        self.rct.centery = 50
+        self.rct.centery = HEIGHT - 50
 
     def update(self, screen: pg.Surface):
+        self.img = self.font.render(f"Score: {self.score}", True, self.color)
         screen.blit(self.img, self.rct)
 
 
@@ -184,6 +185,7 @@ def main():
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
     beam = None
     explosions = []
+    score = Score()
 
 
     clock = pg.time.Clock()
@@ -209,6 +211,7 @@ def main():
         for i, bomb in enumerate(bombs):
             if beam is not None:
                 if beam.rct.colliderect(bomb.rct):
+                    score.score += 1
                     # 撃墜 = Noneにする
                     beam = None
                     bombs[i] = None
@@ -227,6 +230,7 @@ def main():
             bomb.update(screen)
         if beam is not None:
             beam.update(screen)
+        score.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
