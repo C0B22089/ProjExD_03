@@ -164,19 +164,6 @@ class Explosion:
         else:
             screen.blit(self.gazou[2], self.rct)
 
-class Score:
-    def __init__(self):
-        self.font = pg.font.SysFont("hgp創英角pop体", 30)
-        self.color = (0, 0, 255)
-        self.score = 0
-        self.img = self.font.render("スコア", 0, self.color)
-        self.rct = self.img.get_rect()
-        self.rct.centerx = 100
-        self.rct.centery = 50
-
-    def update(self, screen: pg.Surface):
-        screen.blit(self.img, self.rct)
-
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
