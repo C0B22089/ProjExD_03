@@ -139,6 +139,7 @@ class Score:   #スコア表示
         screen.blit(self.img, self.rct)
 
 
+
 class Explosion:   #爆発の演出
     def __init__(self, bomb: Bomb):
         self.img = pg.image.load(f"ex03/fig/explosion.gif")
