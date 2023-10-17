@@ -124,7 +124,23 @@ class Bomb:
             self.vy *= -1
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
+class Explosion:
 
+    def __init__(self, bomb: Bomb):
+        self.img = pg.image.load(f"ex03/fig/explosion.gif")
+        self.rct = self.img.get_rect()
+        self.rct.center = bomb.rct.center
+        self.gazou = [self.img, pg.transform.flip(self.img, True, False), pg.transform.flip(self.img, False, True)]
+        self.life = 10
+
+    def update(self,screen: pg.Surface):
+        self.life -= 1
+        if self.life % 3 == 0:
+            screen.blit(self.gazou[0], self.rct)
+        elif self.life % 3 == 1:
+            screen.blit(self.gazou[1], self.rct)
+        else:
+            screen.blit(self.gazou[2], self.rct)
 
 class Beam:
     def __init__(self, bird: Bird):
@@ -146,36 +162,7 @@ class Beam:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
-class Explosion:
 
-    def __init__(self, bomb: Bomb):
-        self.img = pg.image.load(f"ex03/fig/explosion.gif")
-        self.rct = self.img.get_rect()
-        self.rct.center = bomb.rct.center
-        self.gazou = [self.img, pg.transform.flip(self.img, True, False), pg.transform.flip(self.img, False, True)]
-        self.life = 10
-
-    def update(self,screen: pg.Surface):
-        self.life -= 1
-        if self.life % 3 == 0:
-            screen.blit(self.gazou[0], self.rct)
-        elif self.life % 3 == 1:
-            screen.blit(self.gazou[1], self.rct)
-        else:
-            screen.blit(self.gazou[2], self.rct)
-
-class Score:
-    def __init__(self):
-        self.font = pg.font.SysFont("hgp創英角pop体", 30)
-        self.color = (0, 0, 255)
-        self.score = 0
-        self.img = self.font.render("スコア", 0, self.color)
-        self.rct = self.img.get_rect()
-        self.rct.centerx = 100
-        self.rct.centery = 50
-
-    def update(self, screen: pg.Surface):
-        screen.blit(self.img, self.rct)
 
 
 def main():
@@ -186,7 +173,6 @@ def main():
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
     beam = None
     explosions = []
-    score = Score
 
     clock = pg.time.Clock()
     tmr = 0
@@ -218,8 +204,6 @@ def main():
                     if explosion.life > 0:
                         explosions.append(explosion)
                         explosion.update(screen)
-                    score += 1
-                    score.update(screen)
                     bird.change_img(6, screen)
                     pg.display.update()
                     
